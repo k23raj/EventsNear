@@ -5,6 +5,10 @@ const bcryptjs = require('bcryptjs')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
+    name : {
+        type : String,
+     required : true
+    },
     username: {
         type: String, 
         required: true, 
@@ -30,10 +34,13 @@ const userSchema = new Schema({
         minlength: 6,
         maxlength: 128 
     }, 
-    name : {
-        type : String,
-        // required : true
+    mobile: {
+        type: String,
+        required: true, 
+        minlength: 10,
+        maxlength: 10 
     },
+   
     bookedEvents : [{
         type : Schema.Types.ObjectId,
         ref : 'Event'
@@ -154,6 +161,4 @@ userSchema.pre('save', function (next) {
 const User = mongoose.model('User', userSchema)
 
 
-module.exports = {
-    User
-}
+module.exports = User

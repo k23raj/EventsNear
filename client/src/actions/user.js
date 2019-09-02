@@ -2,7 +2,7 @@ import axios from '../config/axios'
 export const startSetUser = () => {
     return (dispatch) => {
         console.log('action -user')
-        axios.get('/user/account', {
+        axios.get('/users/account', {
             headers:{
                 'x-auth': localStorage.getItem('userAuth')
             }
@@ -23,8 +23,26 @@ export const setUser = (user)=> {
     }
 }
 
-export const removeUser = () => {
-    return{
-        type:"REMOVE_USER"
+export const removeUser = (user) => {
+    return {
+        type: 'REMOVE_USER'
+    }
+}
+
+export const startRemoveUser = (history) => {
+    return (dispatch) => {
+        axios.delete('/users/logout', {
+            headers: {
+                'x-auth':localStorage.getItem('userAuth')
+            }
+        })
+        .then(response => {
+            localStorage.removeItem('userAuth')
+            dispatch(removeUser())
+            history.push('/login')
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 }

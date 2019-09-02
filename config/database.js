@@ -2,7 +2,7 @@ const mongoose=require('mongoose')//npm install mongoose
 //db configuration
 mongoose.Promise=global.Promise//mongoose to use the promise library by es6
 
-mongoose.connect('mongodb://localhost:27017/EventsNear',{useNewUrlParser:true})
+mongoose.connect('mongodb+srv://raj:raj123@events-zhak9.mongodb.net/test?retryWrites=true&w=majority' ,{useNewUrlParser:true})
 .then(()=>{
         console.log('connected to db')
 })

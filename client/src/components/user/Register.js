@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from '../../config/axios'
+import { setUser } from '../../actions/user'
+import {connect} from 'react-redux'
 class UserRegister extends React.Component{ 
     constructor(props){
         super(props)
@@ -7,7 +9,8 @@ class UserRegister extends React.Component{
             name:'',
             username:'',
             email:'',
-            password:'',
+            password: '',
+            mobile:'',
             errMsg:'',
             successMsg:''
         }
@@ -26,7 +29,8 @@ class UserRegister extends React.Component{
             name:'',
             username:'',
             email:'',
-            password:'',
+            password: '',
+            mobile:'',
             errorMsg: "",
             successMsg: ""
         }))
@@ -37,21 +41,26 @@ class UserRegister extends React.Component{
         const formData = {
             name:this.state.name,
             username:this.state.username,
-            email:this.state.email,
+            email: this.state.email,
+            mobile:this.state.mobile,
             password:this.state.password
         }
-        axios.post('/user/register', formData)
-            .then((response) =>{
+        axios.post('/users/register', formData)
+            .then((response) => {
+                console.log("response")
                 if(response.data.hasOwnProperty('errors')){
                     this.setState({errorMsg:response.data.message})
                 }
                 else {
+            
+                    this.props.dispatch(setUser(response.data))
                     this.setState( { successMsg:'User Successfully register',
                                          name:'',
                                          errorMsg: '',
                                          email: '',
                                          username:'',
-                                         password:''
+                                         password: '',
+                                         mobile:''
                  })
                 }
             }).catch(err => {
@@ -61,28 +70,48 @@ class UserRegister extends React.Component{
 
     render(){
         return(
-            <div>
-            <h3>Register</h3>
-            <form onSubmit={this.handleSubmit}>
-            {this.state.errorMsg && <p>{this.state.errorMsg}</p>}
-            {this.state.successMsg && <p>{this.state.successMsg}</p>}
-                <label>
+            <div className="container">
+                <div className="row">
+                    <h3>Register</h3>
+                    {this.state.errorMsg && <p>{this.state.errorMsg}</p>}
+                    {this.state.successMsg && <p>{this.state.successMsg}</p>}
+                </div>
+                <form >
+                <div className="row">
+                    <label>
                     Name <input type="text" value ={this.state.name} onChange={this.handleChange} name='name'/>
-                </label><br/>
+                    </label>
+                    </div>
+                    <div className="row">
                 <label>
                     User Name <input type = "text" value = {this.state.username} onChange={this.handleChange} name='username' />
-                </label><br/>
+                        </label>
+                    </div>
+                    <div className="row">
                 <label>
                     E-mail <input type = 'email' value = {this.state.email} onChange = {this.handleChange} name= 'email' />
-                </label><br/>
+                        </label>
+                    </div>
+                    <div className="row">
+                    
                 <label>
                     Password <input type='password' value={this.state.password} onChange ={this.handleChange} name='password'/>
-                </label><br/>
-                <input type='submit' value='register'/>
-                <button onClick={this.handleReset}>Reset</button>
+                        </label>
+                    </div>
+                    <div className="row">
+                <label>
+                    Mobile <input type = 'number' value = {this.state.mobile} onChange = {this.handleChange} name= 'mobile' />
+                        </label>
+                    </div>
+                    <div className="row">
+                        
+
+                        <button onClick={this.handleSubmit}>Submit</button>
+                        <button onClick={this.handleReset}>Reset</button>
+                        </div>
             </form>
             </div>
         )
     }
 }
-export default UserRegister
+export default connect()(UserRegister)

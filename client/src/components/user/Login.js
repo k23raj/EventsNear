@@ -1,26 +1,23 @@
 import React from 'react'
 import axios from "../../config/axios"
+import { Link } from 'react-router-dom';
 import { startSetUser } from '../../actions/user'
 import {connect} from 'react-redux'
-// import '../../login.css'
+import './login.css'
 
 class UserLogin extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-
             email: "",
             password: "",errorMsg:''
-
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleReset = this.handleReset.bind(this)
 
     }
-
-
     //Dynamic Change
     handleChange(e) {
         e.persist()
@@ -32,7 +29,6 @@ class UserLogin extends React.Component {
         this.setState(() => ({
             email: "",
             password: ""
-
         }))
     }
 
@@ -42,12 +38,9 @@ class UserLogin extends React.Component {
             email: this.state.email,
             password: this.state.password
         }
-
-
         console.log('form data', formData)
-
-        // axios.post('/user/login', formData)
-        axios.post('/user/login', formData)
+      
+        axios.post('/users/login', formData)
             .then((response)=> {
                  console.log(response.data)
                 if(response.data.hasOwnProperty('errors')) {
@@ -66,29 +59,33 @@ class UserLogin extends React.Component {
     }
     render() {
         return (
-            <div className="login-page">
-            <h3>Login</h3>
+            <div className="flex-container">
+            <div className="form">
+            <form>
+                <div className="row">
+                <h3>Login</h3>
                 {this.state.errorMsg && <p>{this.state.errorMsg}</p>}
-                <div className="form"><form onSubmit={this.handleSubmit}>
-                        
-
-                    <label>E mail
-                    <input type="email" value={this.state.email} onChange={this.handleChange} name="email" />
-                    </label><br />
-
-                    <label>Password
-                    <input type="password" value={this.state.password} onChange={this.handleChange} name="password" />
-                    </label><br />
-
-                    <input type="submit" />
-
-                    <button onClick={this.handleReset} >Reset</button>
-
+                </div>
+                    <div className="row">
+                        <div>
+                            <label>E mail       
+                            <input type="email" value={this.state.email} onChange={this.handleChange} name="email" />
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                            <label>Password
+                            <input type="password" value={this.state.password} onChange={this.handleChange} name="password" />
+                        </label>
+                    </div>
+                    <div className="row">
+                    <button onClick={this.handleSubmit} > Submit</button>
+                        <button onClick={this.handleReset} >Reset</button>
+                    </div>
+                    
                 </form>
                 </div>
             </div>
-
-
         )
     }
 }

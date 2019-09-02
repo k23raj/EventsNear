@@ -1,7 +1,7 @@
 const Category=require('../models/Category')
 
 module.exports.list=(req,res)=>{
-    Category.find({/*userId:req.user._id*/}).populate('category',['name'])//returns a promise object
+    Category.find()//returns a promise object
     .then((categories)=>{
         res.json(categories)
     })
@@ -18,7 +18,7 @@ module.exports.create=(req,res)=>{
 }
 module.exports.show=(req,res)=>{
     const id=req.params.id
-    Category.findById(id).populate('category')
+    Category.findById(id)
     .then(category=>{
         if(category){
          res.json(category)   

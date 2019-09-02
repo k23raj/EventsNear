@@ -17,7 +17,6 @@ const authenticateUser = function(req, res, next){
             res.status('401').send(err)
         })
 }
-
 module.exports = {
     authenticateUser
 }

@@ -1,13 +1,15 @@
 import React from 'react'
-import {removeUser} from '../../actions/user'
+import {startRemoveUser} from '../../actions/user'
 import {connect} from 'react-redux'
 import _ from 'lodash'
 
-function Logout(props){
-    if(!_.isEmpty(props.user)){
+function Logout(props) {
+  {  /* if(!_.isEmpty(props.user)){
         localStorage.removeItem('userAuth')
         props.dispatch(removeUser())
-    }   
+    }    */}
+    props.dispatch(startRemoveUser())
+
      console.log('logout')   
     return (
         <div>
